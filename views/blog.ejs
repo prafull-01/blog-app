@@ -3,56 +3,72 @@
 
 <head>
     <%- include('./partials/head') %>
-        <title>Blog</title>
+    <title>Blog</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom CSS for specific styles */
+        /* Ensure images are responsive */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Adjust margins for better spacing */
+        .mt-2 {
+            margin-top: 10px;
+        }
+
+        /* Ensure comments section is scrollable on smaller screens */
+        .comments-section {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
 </head>
 
 <body>
     <%- include('./partials/nav') %>
+    <div class="container mt-4">
+        <h2><%= blog.title %></h2>
         <div class="container mt-4">
-            <h2>
-                <%= blog.title %>
-            </h2>
-            <div class="container mt-4">
-                <img src="<%= blog.coverImageUrl %>" width="600px">
-            </div>
-            <div class="container mt-4">
-                <p><%= blog.body %></p>
-            </div>
-            <div class="container mt-4">
-                <h5>Thanks for reading this article. This Blog is created by <%= blog.createdBy.fullName %> with
-                        &#10084;</h5>
-
-            </div>
-
-            <div class="container mt-4">
-                <h6 class="mt-2">Comments(<%= comments.length %>)</h6>
-                <% comments.forEach(comment => { %>
-                    
-                 <div class="container mt-2">
-                    <pre>By <%= comment.createdBy.fullName %> : <%= comment.content%></pre> 
-                    
-                 </div>
-                <% }) %>
-            </div>
-
+            <img src="<%= blog.coverImageUrl %>" class="img-fluid" alt="Blog Cover Image">
+        </div>
+        <div class="container mt-4">
+            <p><%= blog.body %></p>
+        </div>
+        <div class="container mt-4">
+            <h5>Thanks for reading this article. This Blog is created by <%= blog.createdBy.fullName %> with &#10084;</h5>
         </div>
 
-        <% if (locals.user) { %>
-            <div class="container mt-4">
-                <h5>Comment</h5>
-                <form action="/blog/comment/<%= blog._id %>" method="post">
-
-                    <div class="mb-3">
-                        <input type="text" name="content" class="form-control" id="comment" placeholder="Add your comment here" required>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-
+        <div class="container mt-4">
+            <h6 class="mt-2">Comments (<%= comments.length %>)</h6>
+            <div class="comments-section">
+                <% comments.forEach(comment => { %>
+                <div class="container mt-2">
+                    <pre>By <%= comment.createdBy.fullName %> : <%= comment.content %></pre>
+                </div>
+                <% }) %>
             </div>
-        <% } %>
+        </div>
 
+    </div>
 
+    <% if (locals.user) { %>
+    <div class="container mt-4">
+        <h5>Comment</h5>
+        <form action="/blog/comment/<%= blog._id %>" method="post">
+
+            <div class="form-group">
+                <label for="comment">Add your comment here:</label>
+                <input type="text" name="content" class="form-control" id="comment" placeholder="Add your comment here"
+                    required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <% } %>
 
     <%- include('./partials/scripts') %>
 </body>
