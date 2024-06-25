@@ -24,6 +24,11 @@
             max-height: 300px;
             overflow-y: auto;
         }
+
+        /* Justify text alignment */
+        .article-body p {
+            text-align: justify;
+        }
     </style>
 </head>
 
@@ -31,21 +36,27 @@
     <%- include('./partials/nav') %>
     <div class="container mt-4">
         <h2><%= blog.title %></h2>
-        <div class="container mt-4">
-            <img src="<%= blog.coverImageUrl %>" class="img-fluid" alt="Blog Cover Image">
+
+        <!-- Ensure image takes the width of the container -->
+        <div class="row">
+            <div class="col-12">
+                <img src="<%= blog.coverImageUrl %>" class="img-fluid" alt="Blog Cover Image">
+            </div>
         </div>
-        <div class="container mt-4">
+
+        <div class="mt-4 article-body">
             <p><%= blog.body %></p>
         </div>
-        <div class="container mt-4">
+
+        <div class="mt-4">
             <h5>Thanks for reading this article. This Blog is created by <%= blog.createdBy.fullName %> with &#10084;</h5>
         </div>
 
-        <div class="container mt-4">
+        <div class="mt-4">
             <h6 class="mt-2">Comments (<%= comments.length %>)</h6>
             <div class="comments-section">
                 <% comments.forEach(comment => { %>
-                <div class="container mt-2">
+                <div class="mt-2">
                     <pre>By <%= comment.createdBy.fullName %> : <%= comment.content %></pre>
                 </div>
                 <% }) %>
@@ -61,11 +72,11 @@
 
             <div class="form-group">
                 <label for="comment">Add your comment here:</label>
-                <input type="text" name="content" class="form-control" id="comment" placeholder="Add your comment here"
-                    required>
+                <input type="text" name="content" class="form-control" id="comment"
+                    placeholder="Add your comment here" required>
             </div>
 
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn mb-3 btn-primary">Submit</button>
         </form>
     </div>
     <% } %>
